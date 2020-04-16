@@ -1,53 +1,117 @@
-// const Manager = require("./lib/Manager");
-// const Engineer = require("./lib/Engineer");
-// const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-// const path = require("path");
-// const fs = require("fs");
+const path = require("path");
+const fs = require("fs");
 
-// const OUTPUT_DIR = path.resolve(__dirname, "output")
-// const outputPath = path.join(OUTPUT_DIR, "team.html");
+const OUTPUT_DIR = path.resolve(__dirname, "output")
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-// const render = require("./lib/htmlRenderer");
+const render = require("./lib/htmlRenderer");
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-inquirer
-    .prompt([
-        {
-            type: "",
-            message: "Please select the type of employee you woud like to add:",
-            name: ""
-        },
-        {
-            type: "",
-            message: "What is the employee's name?",
-            name: ""
-        },
-        {
-            type: "",
-            message: "What is the employee's ID?",
-            name: ""
-        },
-        {
-            type: "",
-            message: "What is the employee's email address?",
-            name: ""
-        }
-    ])
-    .then(answers => {
-        console.log(answers);
-    })
-    .catch(error => {
-        if (error.isTtyError) {
-            // Prompt couldn't be rendered in the current environment
-        } else {
-            // Something else when wrong
-        }
-    });
+const managerQuestions = {
+    type: "input",
+    message: "What is their office number?",
+    name: "office"
+};
 
+const engineerQuestions = {
+    type: "input",
+    message: "What is their github username?",
+    name: "github"
+};
+
+const internQuestions = {
+    type: "input",
+    message: "What school do they attend?",
+    name: "school"
+};
+
+const employeeType = [{
+    type: "list",
+    name: "type",
+    message: "Please select the type of employee you woud like to add:",
+    choices: ["Manager", "Engineer", "Intern"]
+}];
+
+const defaultQs = [
+    {
+        type: "input",
+        message: "What is the employee's name?",
+        name: "name"
+    },
+    {
+        type: "input",
+        message: "What is the employee's ID?",
+        name: "id"
+    },
+    {
+        type: "input",
+        message: "What is the employee's email address?",
+        name: "email"
+    }];
+
+const moreEmp = [{
+    type: "confirm",
+    message: "Would you like to add any other employees?",
+    name: "continue"
+}];
+
+async function getEmployees() {
+    // initialize continue variable
+    var cont = { "continue": true };
+    // var employees = {};
+    // initialize incrementing variables
+    var i = 0;
+    var j = 0;
+    var k = 0;
+    var managers = [];
+    var engineers = [];
+    var interns = [];
+    try {
+        while (cont.continue) {
+            var role = await inquirer.prompt(employeeType);
+            var defaultAs = await inquirer.prompt(defaultQs);
+            // console.log("====" + role.type + "====");
+            // get unique data based on type, build object
+            if (role.type === "Manager") {
+                var office = await inquirer.prompt(managerQuestions);
+                managers[i] = new Manager(defaultAs.name, defaultAs.id, defaultAs.email, office.office);
+                i++;
+            }
+            else if (role.type === "Engineer") {
+                var github = await inquirer.prompt(engineerQuestions);
+                engineers[j] = new Engineer(defaultAs.name, defaultAs.id, defaultAs.email, github.github);
+                j++;
+            }
+            else {
+                var school = await inquirer.prompt(internQuestions);
+                interns[k] = new Intern(defaultAs.name, defaultAs.id, defaultAs.email, school.school);
+                k++;
+            }
+            cont = await inquirer.prompt(moreEmp);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+    const employees = {...managers, ...engineers, ...interns};
+    // combine responses into object with format readable by htmlRenderer.js
+    // var employees = [];
+    // for (var i = 0; i < role.length; i++) {
+    //     var dummy = {};
+    //     employees[i] = Object.assign(dummy, role[i], defaultAs[i], additionalAs[i]); 
+    // }
+    console.log(employees);
+    const html = render(employees);
+    console.log(html);
+}
+getEmployees();
+// console.log(employees);
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!

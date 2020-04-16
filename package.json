@@ -1,0 +1,28 @@
+{
+  "name": "10-team-profile-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryangautier1/10-Team-Profile-Generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryangautier1/10-Team-Profile-Generator/issues"
+  },
+  "homepage": "https://github.com/ryangautier1/10-Team-Profile-Generator#readme",
+  "dependencies": {
+    "inquirer": "^7.1.0",
+    "jest": "^25.3.0",
+    "rxjs": "^6.5.5"
+  }
+}
