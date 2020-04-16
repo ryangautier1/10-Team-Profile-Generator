@@ -62,7 +62,7 @@ const moreEmp = [{
     name: "continue"
 }];
 
-async function getEmployees() {
+async function buildPage() {
     // initialize continue variable
     var cont = { "continue": true };
     // var employees = {};
@@ -109,7 +109,7 @@ async function getEmployees() {
         employees.push(engineers[n]);
     }
     for (var n = 0; n < interns.length; n++){
-        employees.push(engineers[n]);
+        employees.push(interns[n]);
     }
     // combine responses into object with format readable by htmlRenderer.js
     // var employees = [];
@@ -120,8 +120,18 @@ async function getEmployees() {
     console.log(employees);
     const html = render(employees);
     console.log(html);
+
+    fs.writeFile("team.html", html, function (err) {
+        if (err) {
+            error(err);
+        }
+        else {
+            console.log("File written!");
+        }
+    })
 }
-getEmployees();
+
+buildPage();
 // console.log(employees);
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
