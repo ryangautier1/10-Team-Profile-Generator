@@ -65,7 +65,7 @@ const moreEmp = [{
 async function buildPage() {
     // initialize continue variable
     var cont = { "continue": true };
-    // var employees = {};
+    
     // initialize incrementing variables
     var i = 0;
     var j = 0;
@@ -111,15 +111,8 @@ async function buildPage() {
     for (var n = 0; n < interns.length; n++){
         employees.push(interns[n]);
     }
-    // combine responses into object with format readable by htmlRenderer.js
-    // var employees = [];
-    // for (var i = 0; i < role.length; i++) {
-    //     var dummy = {};
-    //     employees[i] = Object.assign(dummy, role[i], defaultAs[i], additionalAs[i]); 
-    // }
-    console.log(employees);
+    
     const html = render(employees);
-    console.log(html);
 
     fs.writeFile("team.html", html, function (err) {
         if (err) {
