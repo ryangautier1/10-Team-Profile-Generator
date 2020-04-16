@@ -10,10 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
+// Define questions
 const managerQuestions = {
     type: "input",
     message: "What is their office number?",
@@ -62,23 +59,29 @@ const moreEmp = [{
     name: "continue"
 }];
 
+
+// async function for all processes
 async function buildPage() {
+
     // initialize continue variable
     var cont = { "continue": true };
-    
+
     // initialize incrementing variables
     var i = 0;
     var j = 0;
     var k = 0;
+    
+    // initialize response arrays
     var managers = [];
     var engineers = [];
     var interns = [];
+
     try {
         while (cont.continue) {
             var role = await inquirer.prompt(employeeType);
             var defaultAs = await inquirer.prompt(defaultQs);
-            // console.log("====" + role.type + "====");
-            // get unique data based on type, build object
+
+            // get unique data based on type, build array of objects
             if (role.type === "Manager") {
                 var office = await inquirer.prompt(managerQuestions);
                 managers[i] = new Manager(defaultAs.name, defaultAs.id, defaultAs.email, office.office);
@@ -94,6 +97,7 @@ async function buildPage() {
                 interns[k] = new Intern(defaultAs.name, defaultAs.id, defaultAs.email, school.school);
                 k++;
             }
+            // check if user is done entering info
             cont = await inquirer.prompt(moreEmp);
         }
     } catch (err) {
@@ -112,8 +116,10 @@ async function buildPage() {
         employees.push(interns[n]);
     }
     
+    // build html
     const html = render(employees);
 
+    // write html
     fs.writeFile("team.html", html, function (err) {
         if (err) {
             error(err);
@@ -125,23 +131,3 @@ async function buildPage() {
 }
 
 buildPage();
-// console.log(employees);
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an 
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work!```
