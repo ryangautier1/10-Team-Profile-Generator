@@ -22,7 +22,6 @@
   "homepage": "https://github.com/ryangautier1/10-Team-Profile-Generator#readme",
   "dependencies": {
     "inquirer": "^7.1.0",
-    "jest": "^25.3.0",
-    "rxjs": "^6.5.5"
+    "jest": "^25.3.0"
   }
 }
