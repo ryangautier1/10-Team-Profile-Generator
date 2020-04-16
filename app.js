@@ -99,7 +99,18 @@ async function getEmployees() {
     } catch (err) {
         console.log(err);
     }
-    const employees = {...managers, ...engineers, ...interns};
+
+    // combine responses into object with format readable by htmlRenderer.js
+    const employees = [];
+    for (var n = 0; n < managers.length; n++){
+        employees.push(managers[n]);
+    }
+    for (var n = 0; n < engineers.length; n++){
+        employees.push(engineers[n]);
+    }
+    for (var n = 0; n < interns.length; n++){
+        employees.push(engineers[n]);
+    }
     // combine responses into object with format readable by htmlRenderer.js
     // var employees = [];
     // for (var i = 0; i < role.length; i++) {
