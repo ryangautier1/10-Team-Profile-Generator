@@ -27,7 +27,7 @@ The user may enter information for any number of employees in any order.
 This application was testing during development using jest.js
     
 ## Example Result
-![Example Result](./screenshot.png)
+![Example Result](./screenshot.PNG)
 
 ## Implementation
 ![Implementation](./ImplementationGif.gif)
